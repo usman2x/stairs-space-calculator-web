@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stair Length Calculator</title>
+<style>
+    /* Basic styling */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        box-sizing: border-box;
+    }
+    button {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        box-sizing: border-box;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+    #result {
+        margin-top: 20px;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Stair Length Calculator</h2>
+    <label for="feet">Height (Feet):</label>
+    <input type="number" id="feet" min="0" placeholder="Feet" required>
+    <label for="inches">Height (Inches):</label>
+    <input type="number" id="inches" min="0" placeholder="Inches" required>
+    <label for="treadHeight">Stair Tread Height (Inches):</label>
+    <input type="number" id="treadHeight" min="0" placeholder="Tread Height" required>
+    <label for="treadDepth">Stair Tread Depth (Inches):</label>
+    <input type="number" id="treadDepth" min="0" placeholder="Tread Depth" required>
+    <button onclick="calculateLength()">Calculate</button>
+    <div id="result"></div>
+</div>
+<script>
+    function calculateLength() {
+        // Getting values from inputs
+        var feet = parseInt(document.getElementById("feet").value);
+        var inches = parseInt(document.getElementById("inches").value);
+        var treadHeight = parseInt(document.getElementById("treadHeight").value);
+        var treadDepth = parseInt(document.getElementById("treadDepth").value);
+        
+        // Validating inputs
+        if (isNaN(feet) || isNaN(inches) || isNaN(treadHeight) || isNaN(treadDepth)) {
+            document.getElementById("result").innerText = "Please enter valid numbers for all inputs.";
+            return;
+        }
+        
+        // Converting feet and inches to total inches
+        var heightInInches = feet * 12 + inches;
+        
+        // Step 1: Calculate the Total Rise
+        var totalRise = heightInInches;
+        
+        // Step 2: Determine the Riser Height
+        var riserHeight = totalRise / Math.ceil(heightInInches / treadHeight);
+        
+        // Step 3: Calculate the Total Run
+        var totalRun = (Math.ceil(heightInInches / treadHeight)) * treadDepth;
+        
+        // Step 4: Determine the Tread Length
+        var treadLength = totalRun - 1; // Assuming tread thickness of 1 inch
+        
+        // Step 5: Space Required for Stairs
+        var spaceRequired = totalRun + 1; // Adding 1 inch for the thickness of one tread
+        
+        // Step 6: Total Number of Steps
+        var totalSteps = Math.ceil(heightInInches / treadHeight);
+        
+        // Converting spaceRequired and treadLength to feet and inches
+        var spaceRequiredFeet = Math.floor(spaceRequired / 12);
+        var spaceRequiredInches = spaceRequired % 12;
+        
+        // Displaying the result
+        document.getElementById("result").innerText = "Space Required for Stairs: " + spaceRequiredFeet + "' " + spaceRequiredInches + "\"\nTotal Number of Steps: " + totalSteps;
+    }
+</script>
+</body>
+</html>
